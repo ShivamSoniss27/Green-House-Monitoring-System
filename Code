@@ -1,0 +1,66 @@
+
+#include <LiquidCrystal.h> // includes the LiquidCrystal Library 
+
+LiquidCrystal lcd(12,11,5,4,3,2); // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7) 
+void setup() 
+{ 
+  lcd.begin(16,2);
+  pinMode(13, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(7, OUTPUT);
+  digitalWrite(13, HIGH);
+}
+void loop() 
+
+{ 
+ float Voltage=analogRead(A0)*0.004882814;
+ float degreesC = ( Voltage - 0.5 ) * 100;
+  
+ lcd.setCursor(3,0);
+ lcd.print("Temp :");   
+ lcd.setCursor(8,0); 
+ lcd.print(degreesC);
+  if (degreesC<27)
+  {
+    lcd.setCursor(4,1);
+    lcd.print("TOO COLD");
+  }
+  if (degreesC>30)
+  {
+    lcd.setCursor(4,1);
+    lcd.print("TOO HOT");
+    digitalWrite(8, LOW);
+    digitalWrite(7, HIGH);
+    delay(400); // Wait for 1000 millisecond(s)
+  }
+  if (degreesC<=30)
+  {
+    digitalWrite(8, LOW);
+    digitalWrite(7, LOW);
+    delay(400);
+  }
+  
+  
+  delay(1000);
+  lcd.clear();
+  
+    int ldr=analogRead(A1);
+  
+  lcd.setCursor(1,0);
+  lcd.print("Intensity");
+  lcd.setCursor(12,0);
+  lcd.print(ldr);
+  if (ldr<100)
+  {
+     lcd.setCursor(4,1);
+     lcd.print("TOO BRIGHT");
+  }
+  if (ldr>178)
+  {
+     lcd.setCursor(4,1);
+     lcd.print("TOO DARK");
+  }
+  
+  delay(1000);
+  lcd.clear();
+}
